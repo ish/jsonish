@@ -1,0 +1,9 @@
+setup.cfg
+setup.py
+jsonish/__init__.py
+jsonish.egg-info/PKG-INFO
+jsonish.egg-info/SOURCES.txt
+jsonish.egg-info/dependency_links.txt
+jsonish.egg-info/entry_points.txt
+jsonish.egg-info/top_level.txt
+jsonish.egg-info/zip-safe
