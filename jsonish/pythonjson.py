@@ -1,5 +1,5 @@
 import datetime
-import simplejson
+from jsonish.json import json
 
 
 def date_to_dict(obj):
@@ -23,52 +23,12 @@ def datetime_from_dict(obj):
     return datetime.datetime(obj["year"], obj["month"], obj["day"], obj["hour"], obj["minute"], obj["second"], obj["microsecond"])
 
 
-class Encoder(simplejson.JSONEncoder):
 
-    def __init__(self, *a, **k):
-        self.obj_to_dict = k.pop("obj_to_dict")
-        simplejson.JSONEncoder.__init__(self, *a, **k)
-
-    def default(self, obj):
-        name_func = self.obj_to_dict.get(obj.__class__)
-        if name_func is None:
-            return simplejson.JSONEncoder.default(self, obj)
-        (name, func) = name_func
-        obj = func(obj)
-        obj.update({"__type__": name})
-        return obj
-
-class System(object):
-
-    def __init__(self):
-        self.obj_to_dict = {}
-        self.obj_from_dict = {}
-
-    def register_type(self, cls, obj_to_dict, obj_from_dict, name=None):
-        if name is None:
-            name == cls.__name__
-        self.obj_to_dict[cls] = (name, obj_to_dict)
-        self.obj_from_dict[name] = obj_from_dict
-
-    def dumps(self, obj):
-        return simplejson.dumps(obj, cls=Encoder, obj_to_dict=self.obj_to_dict)
-
-    def loads(self, s):
-        return simplejson.loads(s, object_hook=self._object_hook)
-
-    def _object_hook(self, obj):
-        name = obj.get("__type__")
-        func = self.obj_from_dict.get(name, None)
-        if func is None:
-            return obj
-        return func(obj)
-
-default_system = System()
-default_system.register_type(datetime.date, date_to_dict, date_from_dict, "date")
-default_system.register_type(datetime.time, time_to_dict, time_from_dict, "time")
-default_system.register_type(datetime.datetime, datetime_to_dict, datetime_from_dict, "datetime")
-dumps = default_system.dumps
-loads = default_system.loads
+json.register_type(datetime.date, date_to_dict, date_from_dict, "date")
+json.register_type(datetime.time, time_to_dict, time_from_dict, "time")
+json.register_type(datetime.datetime, datetime_to_dict, datetime_from_dict, "datetime")
+dumps = json.dumps
+loads = json.loads
 
 decode_mapping = {
     "datetime": datetime_from_dict,
