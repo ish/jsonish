@@ -1,5 +1,5 @@
 import datetime
-from jsonish.json import json
+from jsonish.json import JSON
 from decimal import Decimal
 
 
@@ -31,6 +31,7 @@ def decimal_to_dict(obj):
 
 
 
+json = JSON()
 json.register_type(datetime.date, date_to_dict, date_from_dict, 'date')
 json.register_type(datetime.time, time_to_dict, time_from_dict, 'time')
 json.register_type(datetime.datetime, datetime_to_dict, datetime_from_dict, 'datetime')
