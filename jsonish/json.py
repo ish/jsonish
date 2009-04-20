@@ -29,8 +29,8 @@ class JSON(object):
         self.obj_to_dict[cls] = (name, obj_to_dict)
         self.obj_from_dict[name] = obj_from_dict
 
-    def dumps(self, obj):
-        return simplejson.dumps(obj, cls=Encoder, obj_to_dict=self.obj_to_dict)
+    def dumps(self, obj, allow_nan=True, ensure_ascii=True):
+        return simplejson.dumps(obj, cls=Encoder, obj_to_dict=self.obj_to_dict, allow_nan=allow_nan, ensure_ascii=ensure_ascii)
 
     def loads(self, s):
         return simplejson.loads(s, object_hook=self._object_hook)
