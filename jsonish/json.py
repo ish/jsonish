@@ -16,6 +16,7 @@ class Encoder(simplejson.JSONEncoder):
         obj.update({"__type__": name})
         return obj
 
+
 class JSON(object):
 
     def __init__(self):
@@ -41,8 +42,8 @@ class JSON(object):
             return obj
         return func(obj)
 
+
 json = JSON()
 dumps = json.dumps
 loads = json.loads
 
-    
