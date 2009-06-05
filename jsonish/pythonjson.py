@@ -75,6 +75,8 @@ def encode_to_dict(obj, mapping=encode_mapping):
         return dict( [(k,encode_to_dict(v, mapping)) for k,v in obj.items()] )
     elif isinstance(obj, list):
         return [encode_to_dict(v, mapping) for v in obj]
+    elif isinstance(obj, tuple):
+        return [encode_to_dict(v, mapping) for v in obj]
     else:
         return encode_obj_to_dict(obj, mapping)
     
